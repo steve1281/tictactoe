@@ -10,6 +10,8 @@ class Game:
         self.solutions = [(0,1,2), (3,4,5), (6,7,8),
                           (0,3,6), (1,4,7), (2,5,8),
                           (0,4,8), (2,4,6)]
+        # self.computerAI = ComputerAI(self)
+        self.computerAI = SimpleAI(self)
     
     def display(self):
         print()
@@ -58,9 +60,38 @@ class Game:
                 return True
         print("error")
 
-    """ computer AI - really should move this into its own class so 
-        we can plug in different intelligences...
-    """
+
+    def get_computer_player_input(self, player):
+        return self.computerAI.get_computer_player_input(player)
+
+
+from random import randint
+
+class SimpleAI:
+    def __init__(self, game):
+        self.board = game.board
+        self.check_possible = game.check_possible
+        self.solutions = game.solutions
+
+    def computer_next_available(self, player):
+        possible = []
+        for x in range(9):
+            if  self.board[x] == x:
+                possible.append(x)
+        if len(possible):
+            r = randint(0, len(possible)-1)
+            self.board[possible[r]] = player
+            return True
+        else:
+            return False
+
+    def get_computer_player_input(self, player):
+        if self.computer_next_available(player) : return True
+        return True
+
+    
+class ComputerAI(SimpleAI):
+
     def computer_winning_move(self, player):
         for x in self.solutions:
             y = self.check_possible(x, player)
@@ -104,11 +135,6 @@ class Game:
             self.board[8] = player
             return True
 
-    def computer_next_available(self, player):
-        for x in self.board:
-            if self.board[x] == x:
-                self.board[x] = player
-                return True
 
     def get_computer_player_input(self, player):
         # check if there is a winning move
@@ -124,14 +150,6 @@ class Game:
         # at this point, there are no moves, this is a Cats game
         return True  # which is fine, just return True.
 
-    def setup_win_x(self):
-        self.board[0] = 'X'
-        self.board[1] = 'X'
-    
-    def set_win_x(self):
-        self.board[0] = PLAYER_X
-        self.board[1] = PLAYER_X
-        self.board[2] = PLAYER_X
 
 game = Game()
 running = True
