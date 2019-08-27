@@ -30,13 +30,19 @@ class Game:
             levels.append(f"{i} = {self.ai[i].description()}")
             options.append(f"{i}")
             i = i +1
+        levels.append("")
+        levels.append("q - Quit")
+        options.append('q')
+        levels.append("")
+        
         for x in levels:
-            print (x)
+            print (f"\t{x}")
         while True:
             x = input("Enter desired difficulty: ")
             if not x in options:
                 print("Input error.")
             else:
+                if x == 'q': exit(0)
                 self.computerAI = self.ai[int(x)]
                 break
         print()
@@ -121,5 +127,6 @@ class Game:
                 print("Cats self.")
                 break
 
-Game().game_loop()
+if __name__ == '__main__':
+    Game().game_loop()
 
