@@ -68,11 +68,6 @@ class Game:
         if self.board[win[0]] == player and self.board[win[1]] == player and self.board[win[2]]==player:
             return True
 
-    def check_for_wins(self, player):
-        for x in self.solutions:
-            print(f"checking {x} result {self.check_possible(x, player)}")
-        print()
-
     def check_win(self, player):
         for x in self.solutions:
             win = self.is_win(x, player)
