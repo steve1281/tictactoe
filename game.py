@@ -93,32 +93,33 @@ class Game:
         return self.computerAI.get_computer_player_input(player)
 
 
+    def game_loop(self):
+        self.select_level()
+        running = True
 
-game = Game()
-game.select_level()
+        # assume human is PLAYER_O
+        # and goes first
+        while running:
+            self.display()
+            while not self.get_human_player_input(self.PLAYER_O): pass # get human
+            if self.check_win(self.PLAYER_O):
+                self.display()
+                print("Human wins.")
+                break
+            if self.check_stale():
+                print("Cats self.")
+                break
+            # get computer
+            self.display()
+            self.get_computer_player_input(self.PLAYER_X)
+            if self.check_win(self.PLAYER_X):
+                self.display()
+                print("Computer wins.")
+                break
+            if self.check_stale(): # aka cats game
+                self.display()
+                print("Cats self.")
+                break
 
-running = True
+Game().game_loop()
 
-# assume human is PLAYER_O
-# and goes first
-while running:
-    game.display()
-    while not game.get_human_player_input(game.PLAYER_O): pass # get human
-    if game.check_win(game.PLAYER_O):
-        game.display()
-        print("Human wins.")
-        break
-    if game.check_stale():
-        print("Cats game.")
-        break
-    # get computer
-    game.display()
-    game.get_computer_player_input(game.PLAYER_X)
-    if game.check_win(game.PLAYER_X):
-        game.display()
-        print("Computer wins.")
-        break
-    if game.check_stale(): # aka cats game
-        game.display()
-        print("Cats game.")
-        break
