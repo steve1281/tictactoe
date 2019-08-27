@@ -5,7 +5,7 @@ from simple import SimpleAI
 class ComputerAI(SimpleAI):
 
     def description(self):
-        return "Medium complexity - beatable though"
+        return "Medium complexity - beatable"
 
     def computer_winning_move(self, player):
         for x in self.solutions:
