@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
-from computer import SimpleAI, ComputerAI
-
+from simple import SimpleAI
+from computer import ComputerAI
 
 class Game:
     def __init__(self):
