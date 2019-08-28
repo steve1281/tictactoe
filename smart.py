@@ -11,7 +11,6 @@ class SmartAI(ComputerAI):
         possible = []  # collect a list of possible solutions where we could win
         cross_solutions = [( 1, 4, 7), (3, 4, 5)]
         for x in cross_solutions:
-            print (f"looking at x: {x}")
             # if the solution has a player and two empty spots its an option
             if self.board[x[0]] == player and self.board[x[1]] == x[1] and self.board[x[2]] == x[2]:
                 possible.append(x)
@@ -19,10 +18,8 @@ class SmartAI(ComputerAI):
                 possible.append(x)
             if self.board[x[0]] == x[0] and self.board[x[1]] == x[1] and self.board[x[2]] == player:
                 possible.append(x)
-        print(f"possible: {possible}")
         if len(possible):
             r = randint(0, len(possible) -1)
-            print(f"choose r {r} possible[r]")
             for i in range(3):
                 if not possible[r][i] == player:
                     self.board[possible[r][i]] = player
