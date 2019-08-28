@@ -2,6 +2,7 @@
 
 from simple import SimpleAI
 from computer import ComputerAI
+from smart import SmartAI 
 
 class Game:
     def __init__(self):
@@ -14,7 +15,7 @@ class Game:
         self.solutions = [(0,1,2), (3,4,5), (6,7,8),
                           (0,3,6), (1,4,7), (2,5,8),
                           (0,4,8), (2,4,6)]
-        self.ai = [SimpleAI(self), ComputerAI(self)]
+        self.ai = [SimpleAI(self), ComputerAI(self), SmartAI(self)]
         self.computerAI = None
     
     def select_level(self):
@@ -82,7 +83,9 @@ class Game:
 
     def get_human_player_input(self, player):
         x = input("Enter position you want: ")
-        if x in ['0','1','2','3','4','5','6','7','8']:
+        if x in ['0','1','2','3','4','5','6','7','8', 'q']:
+            if x == 'q':
+                exit(0)
             ix = int(x)
             if self.board[ix] != self.PLAYER_O and self.board[ix] != self.PLAYER_X:
                 self.board[ix] = player
