@@ -122,7 +122,7 @@ class Game:
                 break
             if self.check_stale(): # aka cats game
                 self.display()
-                print("Cats self.")
+                print("Cats game.")
                 break
 
 if __name__ == '__main__':
