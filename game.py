@@ -3,6 +3,7 @@
 from simple import SimpleAI
 from computer import ComputerAI
 from smart import SmartAI 
+from ui import IOManager
 
 class Game:
     def __init__(self):
@@ -17,44 +18,14 @@ class Game:
                           (0,4,8), (2,4,6)]
         self.ai = [SimpleAI(self), ComputerAI(self), SmartAI(self)]
         self.computerAI = None
+        self.ui = IOManager(self)
     
     def select_level(self):
-        print()
-        print("TIC TAC TOE")
-        print()
-        print("Level Selection")
-        print()
-        i = 0
-        levels = []
-        options = []
-        for x in self.ai:
-            levels.append(f"{i} = {self.ai[i].description()}")
-            options.append(f"{i}")
-            i = i +1
-        levels.append("")
-        levels.append("q - Quit")
-        options.append('q')
-        levels.append("")
-        
-        for x in levels:
-            print (f"\t{x}")
-        while True:
-            x = input("Enter desired difficulty: ")
-            if not x in options:
-                print("Input error.")
-            else:
-                if x == 'q': exit(0)
-                self.computerAI = self.ai[int(x)]
-                break
-        print()
+        level = self.ui.select_level()
+        self.computerAI = self.ai[level]
 
     def display(self):
-        print()
-        print(f" {self.board[0]} | {self.board[1]} | {self.board[2]}")
-        print("---+---+---")
-        print(f" {self.board[3]} | {self.board[4]} | {self.board[5]}")
-        print("---+---+---")
-        print(f" {self.board[6]} | {self.board[7]} | {self.board[8]}")
+        self.ui.display()
 
     def check_possible(self, win, player):
         if self.board[win[0]] == player and self.board[win[1]] == player and self.board[win[2]] == win[2]:
@@ -82,16 +53,7 @@ class Game:
         return True
 
     def get_human_player_input(self, player):
-        x = input("Enter position you want: ")
-        if x in ['0','1','2','3','4','5','6','7','8', 'q']:
-            if x == 'q':
-                exit(0)
-            ix = int(x)
-            if self.board[ix] != self.PLAYER_O and self.board[ix] != self.PLAYER_X:
-                self.board[ix] = player
-                return True
-        print("error")
-
+        if self.ui.get_human_player_input(player): return True
 
     def get_computer_player_input(self, player):
         return self.computerAI.get_computer_player_input(player)
@@ -107,22 +69,19 @@ class Game:
             self.display()
             while not self.get_human_player_input(self.PLAYER_O): pass # get human
             if self.check_win(self.PLAYER_O):
-                self.display()
-                print("Human wins.")
+                self.ui.human_win()
                 break
             if self.check_stale():
-                print("Cats self.")
+                self.ui.cats_game()
                 break
             # get computer
             self.display()
             self.get_computer_player_input(self.PLAYER_X)
             if self.check_win(self.PLAYER_X):
-                self.display()
-                print("Computer wins.")
+                self.ui.computer_win()
                 break
             if self.check_stale(): # aka cats game
-                self.display()
-                print("Cats game.")
+                self.ui.cats_game()
                 break
 
 if __name__ == '__main__':
